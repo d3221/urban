@@ -3,7 +3,7 @@ from picamera import PiCamera
 import time
 import cv2
 import sys
-
+import os
 
 # Block UrbanB by default
 unitBlocked = True
@@ -34,14 +34,16 @@ while True:
     # Draw a rectangle around the faces
     for (x, y, w, h) in detections:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-	#print "Face detected"
 
     if getattr(detections, 'size', len(detections)):
 	print "detections - block the unit!"
-	unitBlocked = True
+	unitBlocked = "blocked1"
     else:
-        unitBlocked = False
+        unitBlocked = "free1"
 	print "everything's free. unblock it and go!"
+
+    # Push the state to the Arduino!
+    os.system("sudo python sendArduinoOnce.py "+unitBlocked)
 
     # Display the resulting frame
     cv2.imshow('Video', frame)
