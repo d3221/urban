@@ -23,6 +23,14 @@ while True:
     # Make it gray for better analytics
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
+
+    #TRY
+    (h, w) = gray.shape[:2]
+    center = (w / 2, h / 2)
+    M = cv2.getRotationMatrix2D(center, 180, 1.0)
+    rotated = cv2.warpAffine(gray, M, (w, h))
+    gray = rotated
+
     # Fetch detected objects
     detections = haarCascade.detectMultiScale(
         gray,
