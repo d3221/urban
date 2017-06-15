@@ -1,7 +1,7 @@
 # urban
 
-## Installation von OpenCV2 (3.0.0) auf dem RPi
-* Gebe folgende Befehle nacheinander ein (immer die kompletten Zeilen jeweils)
+## Installation of OpenCV2 (3.0.0) on a RPi(3)
+* Type in the lines one after one (complete command line)
 
 `sudo apt-get update && sudo apt-get upgrade`
 
@@ -29,5 +29,5 @@
  `sudo make install && sudo ldconfig`
  
  
-## Repo laden
+## Load this repo
 `cd ~ && git clone https://github.com/d3221/urban`
