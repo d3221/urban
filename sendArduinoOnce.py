@@ -20,15 +20,15 @@ radio.openWritingPipe(pipe)
 #DEV ONLY: radio.printDetails()
 
 
-###################
-### MAIN SCRIPT ###
-###################
+###########################
+### TRANSMISSION SCRIPT ###
+###########################
 
 # Whats the beacon status? [given by sys var from main script]
 beaconStatus = str(sys.argv[1])
 
 # Here the message is defnied for the output
-message = list("GET THE STRING "+beaconStatus);
+message = list("stat:"+beaconStatus);
 
 # If the message has lower than 32 chars, fill it up with 0s
 while len(message) < 32:
