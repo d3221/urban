@@ -2,6 +2,7 @@
 
 ## Installation von OpenCV2 (3.0.0) auf dem RPi
 * Gebe folgende Befehle nacheinander ein (immer die kompletten Zeilen jeweils)
+
 `sudo apt-get update && sudo apt-get upgrade`
 
 `sudo apt-get install build-essential git cmake pkg-config libjpeg8-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran`
