@@ -14,7 +14,6 @@ haarCascade = cv2.CascadeClassifier(cascPath)
 
 # Stream the camera
 video_capture = cv2.VideoCapture(0)
-video_capture.set(cv2.cv.CV_CAP_PROP_FPS, 50)
 
 while True:
     # Capture frame-by-frame
@@ -24,7 +23,7 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 
-    #TRY
+    # Rotate picture 180° to fit into the Cascade file (whatever o_O)
     (h, w) = gray.shape[:2]
     center = (w / 2, h / 2)
     M = cv2.getRotationMatrix2D(center, 180, 1.0)
@@ -37,7 +36,7 @@ while True:
         scaleFactor=1.1,
         minNeighbors=5,
         minSize=(30, 30),
-        flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+        flags=cv2.CASCADE_SCALE_IMAGE
     )
 
     # Draw a rectangle around the objects
