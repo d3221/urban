@@ -98,15 +98,15 @@ try:
 			print "Set the " + str(personHeading) + " side to " + str(balanceReduction)
 			
 			if (personHeading == "left"):
-				firstAudio = str(balanceReduction)
-				secondAudio = "100";
+				leftAudio = str(balanceReduction)
+				rightAudio = "100";
 			else:
-				firstAudio = "100";
-				secondAudio = str(balanceReduction)
+				leftAudio = "100";
+				rightAudio = str(balanceReduction)
 
-			os.system("amixer sset Master " + firstAudio + "%," + secondAudio + "% -q")
+			os.system("amixer sset Master " + leftAudio + "%," + rightAudio + "% -q")
 			print "Setted volume; now play the sound"
-			os.system("aplay klacken.wav")
+			os.system("aplay piepen.wav -N")
 
 			
 
