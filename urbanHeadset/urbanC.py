@@ -53,14 +53,71 @@ def getDegrees():
 
 
 ####
-#### MAIN LOOP
+#### Get the target destination in degrees
 ####
 
 
+#DEV: ADD THE NRF24L01 DATA FROM THE MODEL AND REPLACE IT
+beaconDirection = 90.0
+
+
+
+####
+#### MAIN LOOP
+####
+
+maxAllowedDifference = 50.0
+
 try:
 	while True:
-		print getDegrees()
-		time.sleep(2)
+		print "LOOP"
+		currentDegrees = getDegrees()
+		
+
+		if (currentDegrees < beaconDirection):
+			personHeading = "left"
+			higher = beaconDirection
+			lower = currentDegrees
+		else:
+			personHeading = "right"
+			higher = currentDegrees
+			lower = beaconDirection
+
+		degreesDifference = higher-lower
+
+		print degreesDifference
+		print "Person is head too much: " + personHeading
+
+		if (degreesDifference > 10.0):
+			print "WARNING: Getting too far away!"
+                        print "ACTION: Adjust the volume balance"
+			balanceReduction = 100-(degreesDifference*100)/100
+			if (balanceReduction < 0):
+				balanceReduction = balanceReduction*-1
+
+			print "Set the " + str(personHeading) + " side to " + str(balanceReduction)
+			
+			if (personHeading == "left"):
+				firstAudio = str(balanceReduction)
+				secondAudio = "100";
+			else:
+				firstAudio = "100";
+				secondAudio = str(balanceReduction)
+
+			os.system("amixer sset Master " + firstAudio + "%," + secondAudio + "% -q")
+			print "Setted volume; now play the sound"
+			os.system("aplay klacken.wav")
+
+			
+
+		print "--------------------"
+		
+		
+
+		#if (currentDegrees >= 0 and currentDegrees < 90):
+		#	print "Zwischen norden und osten"
+
+		time.sleep(1) # give the compass some break!!! :D
 
 except KeyboardInterrupt:
     print('interrupted!')
