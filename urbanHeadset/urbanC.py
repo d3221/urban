@@ -66,6 +66,8 @@ beaconBlocked = True
 #### MAIN LOOP
 ####
 maxAllowedDifference = 50.0
+activated = False
+lightSensor = False
 
 ##
 ## Init
@@ -97,6 +99,7 @@ def start():
 	print "Killed the sounds if its fucked up"
 	time.sleep(1)
 	playKlacken()
+	activated = False
 
 start()
 
@@ -108,7 +111,13 @@ start()
 
 try:
 	while True:
-	    if (beaconBlocked is not True):
+	    if (beaconBlocked is not True or activated is True):
+
+		if(lightSensor is True):
+			#OK WE GOT A TRIGGER
+			print "Lichtschranke aktiviert"
+			print "Sound ausfaden"
+
 		currentDegrees = getDegrees()		
 
 		if (currentDegrees < beaconDirection):
