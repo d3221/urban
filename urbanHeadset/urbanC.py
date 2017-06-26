@@ -59,20 +59,57 @@ def getDegrees():
 
 #DEV: ADD THE NRF24L01 DATA FROM THE MODEL AND REPLACE IT
 beaconDirection = 90.0
-
+beaconBlocked = True
 
 
 ####
 #### MAIN LOOP
 ####
-
 maxAllowedDifference = 50.0
+
+##
+## Init
+##
+
+def playKlacken():
+	os.system("python klacken.py &")
+	print "Started klacken.py in background"
+
+def playPiepen():
+        os.system("python piepen.py &")
+	print "Started piepsen.py in background"
+
+def volume(left, right):
+	left = str(left)+"%"
+	right = str(right)+"%"
+	os.system("amixer sset 'Master' " + left + "," + right + " -q")
+
+def killAudio():
+	os.system("ps ax | kill $(pgrep -f klacken.py)")
+        os.system("ps ax | kill $(pgrep -f piepen.py)")
+
+
+def start():
+	volume(100,100)
+	print "Mixer setted to 100% and 100%"
+
+	killAudio()
+	print "Killed the sounds if its fucked up"
+	time.sleep(1)
+	playKlacken()
+
+start()
+
+
+##
+## MAIN
+##
+
 
 try:
 	while True:
-		print "LOOP"
-		currentDegrees = getDegrees()
-		
+	    if (beaconBlocked is not True):
+		currentDegrees = getDegrees()		
 
 		if (currentDegrees < beaconDirection):
 			personHeading = "left"
@@ -103,21 +140,19 @@ try:
 			else:
 				leftAudio = "100";
 				rightAudio = str(balanceReduction)
+	
+			volume(leftAudio,rightAudio)
+			print "Setted volume"
 
-			os.system("amixer sset Master " + leftAudio + "%," + rightAudio + "% -q")
-			print "Setted volume; now play the sound"
-			os.system("aplay piepen.wav -N")
+		print "--------------------"		
 
-			
+		time.sleep(2) # give the compass some break!!! :D
+	    else:
+		print "Beacon blocked"
+		time.sleep(2)
 
-		print "--------------------"
-		
-		
-
-		#if (currentDegrees >= 0 and currentDegrees < 90):
-		#	print "Zwischen norden und osten"
-
-		time.sleep(1) # give the compass some break!!! :D
+		#HERE WE FETCH THE MODELL DATA HERE
 
 except KeyboardInterrupt:
+    killAudio()
     print('interrupted!')
