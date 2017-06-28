@@ -6,6 +6,10 @@ import cv2
 import sys
 import os
 
+
+# MQTT IP
+mqttIP = "172.16.19.91"
+
 # Block beacon by default
 unitBlocked = "blocked"
 
@@ -41,19 +45,22 @@ while True:
     )
 
     # Draw a rectangle around the objects
-    for (x, y, w, h) in detections:
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+    for (x, y, wRect, hRect) in detections:
+        cv2.rectangle(frame, (w-x-wRect, h-y-hRect), (w-x, h-y), (0, 255, 0), 2)
 
     # Is there an object?
     if getattr(detections, 'size', len(detections)):
 	print "Found one! Block the unit!"
 	unitBlocked = "blocked"
+	os.system("mosquitto_pub -h " + mqttIP + " -d -t topic/state -m " + unitBlocked)
+
     else:
         unitBlocked = "free"
 	print "Nothing found yet. Unblock it and go!"
+	os.system("mosquitto_pub -h " + mqttIP + " -d -t topic/state -m " + unitBlocked)
 
     # Push the state to the Arduino!
-    os.system("sudo python sendArduinoOnce.py "+unitBlocked)
+    #os.system("sudo python sendArduinoOnce.py "+unitBlocked)
 
     # Display the resulting frame (for DEV supposes)
     cv2.imshow('Video', frame)
