@@ -6,9 +6,11 @@ import cv2
 import sys
 import os
 
-
 # MQTT IP
-mqttIP = "172.16.19.91"
+f = open("mqttIP.txt",'r')
+line1=f.readline()
+line1 = line1.split("\n")
+mqttIP = line1[0]
 
 # Block beacon by default
 unitBlocked = "blocked"
@@ -52,15 +54,12 @@ while True:
     if getattr(detections, 'size', len(detections)):
 	print "Found one! Block the unit!"
 	unitBlocked = "blocked"
-	os.system("mosquitto_pub -h " + mqttIP + " -d -t topic/state -m " + unitBlocked)
+	os.system("mosquitto_pub -h " + mqttIP + " -d -t topic/state -m " + unitBlocked + " &")
 
     else:
         unitBlocked = "free"
 	print "Nothing found yet. Unblock it and go!"
-	os.system("mosquitto_pub -h " + mqttIP + " -d -t topic/state -m " + unitBlocked)
-
-    # Push the state to the Arduino!
-    #os.system("sudo python sendArduinoOnce.py "+unitBlocked)
+	os.system("mosquitto_pub -h " + mqttIP + " -d -t topic/state -m " + unitBlocked + " &")
 
     # Display the resulting frame (for DEV supposes)
     cv2.imshow('Video', frame)
