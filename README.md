@@ -17,7 +17,7 @@ Type in the lines one after one (complete command line):
 
 `sudo apt-get update && sudo apt-get upgrade`
 
-`sudo apt-get install build-essential git cmake pkg-config libjpeg8-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran`
+`sudo apt-get install build-essential libgdk-pixbuf2.0-dev libpango1.0-dev libcairo2-dev git cmake pkg-config libjpeg8-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran`
 
 `git clone https://github.com/Itseez/opencv.git && cd opencv &&git checkout 3.0.0`
 
